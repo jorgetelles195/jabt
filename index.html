@@ -74,7 +74,7 @@
   <p class="result" id="resultado"></p>
 
   <p class="note">
-    Observação: Cálculo baseado em fórmula personalizada usando apenas CC, CA e CF.
+    Observação: Cálculo baseado em fórmula personalizada usando apenas CC, CA e CF (valores em milímetros).
   </p>
 </div>
 
@@ -94,13 +94,9 @@ function calcular() {
     return;
   }
 
-  // Conversão de mm para cm
-  cc = cc / 10;
-  ca = ca / 10;
-  cf = cf / 10;
-
+  // Não converte para cm, usa diretamente em mm
   var log10peso = 1.326 - (0.00326 * cf * ca) + (0.0107 * cc) + (0.0438 * cf) + (0.158 * ca);
-  var peso = Math.pow(10, log10peso) / 100; // Dividindo por 100 para ajuste de unidade
+  var peso = Math.pow(10, log10peso) / 100; // Dividido por 100 para ajuste de escala final
 
   if (isNaN(peso) || peso <= 0 || peso > 10000) {
     document.getElementById('resultado').innerText = "Valores inválidos. Verifique as medidas.";
