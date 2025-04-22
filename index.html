@@ -51,7 +51,7 @@
 <div class="container">
   <h2>Calculadora de Peso Fetal</h2>
 
-  <label for="dbp">DBP (mm) - opcional:</label>
+  <label for="dbp">DBP (mm) - opcional (não usado no cálculo):</label>
   <input type="number" id="dbp" placeholder="Ex: 80">
 
   <label for="cc">Circunferência Cefálica (mm):</label>
@@ -67,7 +67,17 @@
   <button onclick="limpar()">Novo Cálculo</button>
 
   <p class="result" id="resultado"></p>
+
+  <p style="font-size: 12px; color: gray;">
+    Observação: cálculo baseado em fórmula personalizada usando apenas CC, CA e CF.
+  </p>
 </div>
+
+<!-- Importar o arquivo externo de script -->
+<script src="script.js"></script>
+
+</body>
+</html>
 
 <!-- Importar o arquivo externo de script -->
 <script src="script.js"></script>
