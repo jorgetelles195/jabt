@@ -2,9 +2,117 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora de Peso Fetal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      font-weight: bold;
+      color: #333;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #007bff;
+    }
+  </style>
 </head>
 <body>
-  <h1>Olá! Calculadora de Peso Fetal carregando!</h1>
+
+<div class="container">
+  <h2>Calculadora de Peso Fetal</h2>
+
+  <label for="dbp">DBP (mm) - opcional:</label>
+  <input type="number" id="dbp" placeholder="Ex: 80">
+
+  <label for="cc">Circunferência Cefálica (mm):</label>
+  <input type="number" id="cc" placeholder="Ex: 280" required>
+
+  <label for="ca">Circunferência Abdominal (mm):</label>
+  <input type="number" id="ca" placeholder="Ex: 250" required>
+
+  <label for="cf">Comprimento do Fêmur (mm):</label>
+  <input type="number" id="cf" placeholder="Ex: 60" required>
+
+  <button onclick="calcular()">Calcular Peso Fetal</button>
+  <button onclick="limpar()">Novo Cálculo</button>
+
+  <p class="result" id="resultado"></p>
+</div>
+
+<script>
+function calcular() {
+  var dbp = document.getElementById('dbp').value;
+  var cc = document.getElementById('cc').value;
+  var ca = document.getElementById('ca').value;
+  var cf = document.getElementById('cf').value;
+
+  if (cc == "" || ca == "" || cf == "") {
+    document.getElementById('resultado').innerText = "Preencha todos os campos obrigatórios.";
+    return;
+  }
+
+  cc = Number(cc);
+  ca = Number(ca);
+  cf = Number(cf);
+  dbp = Number(dbp);
+
+  var peso = 0;
+
+  if (dbp > 0) {
+    // Fórmula Hadlock 4 parâmetros
+    var log10peso = 1.3596 + (0.0064 * cc) + (0.0424 * ca) + (0.174 * cf) + (0.00061 * cc * cf) - (0.00386 * ca * cf);
+    peso = Math.pow(10, log10peso);
+  } else {
+    // Fórmula Hadlock 3 parâmetros (sem DBP)
+    var log10peso = 1.335 - (0.0034 * cc) + (0.0316 * ca) + (0.0457 * cf);
+    peso = Math.pow(10, log10peso);
+  }
+
+  if (isNaN(peso) || peso < 0 || peso > 10000) {
+    document.getElementById('resultado').innerText = "Dados inválidos. Verifique os valores.";
+  } else {
+    document.getElementById('resultado').innerText = "Peso Fetal Estimado: " + peso.toFixed(0) + " g";
+  }
+}
+
+function limpar() {
+  document.getElementById('dbp').value = "";
+  document.getElementById('cc').value = "";
+  document.getElementById('ca').value = "";
+  document.getElementById('cf').value = "";
+  document.getElementById('resultado').innerText = "";
+}
+</script>
+
 </body>
 </html>
